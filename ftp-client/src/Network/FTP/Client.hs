@@ -58,6 +58,7 @@ module Network.FTP.Client (
     parseMlsxLine
 ) where
 
+import Data.Default.Class (def)
 import qualified Data.ByteString.Char8 as C
 import qualified Data.ByteString as B
 import Data.ByteString (ByteString)
@@ -520,10 +521,8 @@ recvAll h = recvAll' ""
 connectTLS :: MonadIO m => SIO.Handle -> String -> Int -> m Connection
 connectTLS h host portNum = do
     context <- liftIO initConnectionContext
-    let tlsSettings = TLSSettingsSimple
+    let tlsSettings = def
             { settingDisableCertificateValidation = True
-            , settingDisableSession = False
-            , settingUseServerName = False
             }
         connectionParams = ConnectionParams
             { connectionHostname = host
